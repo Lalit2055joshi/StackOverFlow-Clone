@@ -1,0 +1,12 @@
+{% extends 'stack/base.html' %}
+{% block contant %}
+<form action="" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" class="btn btn-success" value="Signin">
+    <br>
+    <br>
+    <a href="{% url 'signup'  %}" class="btn btn-warning btn-sm">Signup</a>           
+</form>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "stack/base.html"%}
+{% block contant %}
+<br>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-auto" style="margin-left: 45px;">
+                <h2 class="heading-section">Ask a public question</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-auto">
+                <div class="wrap d-md-flex">
+                    
+                    <div class="login-wrap p-4 p-lg-5">
+                  
+                        <form action="" class="signin-form" method="post" enctype="multipart/form-data">
+                            
+                            {% csrf_token %}
+                            
+                            Question:<br> {{question.name}}  <br>
+                            Tag:<br> {{question.tag}} <br>
+                            Description:<br> {{question.description}} <br>
+               <br>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                   
+                </div>
+                
+              </form>
+              <br>
+
+            </div>
+          </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

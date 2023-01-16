@@ -1,0 +1,173 @@
+{% extends "stack/base.html"%}
+
+{% block contant %}
+
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500&display=swap"
+    rel="stylesheet">
+
+<style>
+    #fh1 {
+        margin-top: 20px;
+    }
+
+    #sub-nav {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    #logout-btn {
+        background-color: rgb(50, 122, 255);
+    }
+    #fh3 {
+        text-align: center;
+        font-size: 30px;
+        padding-top: 20px;
+        text-align: left;
+    }
+
+    @media screen and (max-width: 600px) {
+        #fh3 {
+            font-size: 17px;
+            text-align: left;
+        }
+    }
+
+    #fh6 {
+        text-align: left;
+        font-size: 15px;
+        /* padding-top: 20px; */
+        padding-bottom: 20px;
+        font-weight: normal;
+    }
+
+    @media screen and (max-width: 600px) {
+        #fh6 {
+            font-size: 15px;
+            text-align: left;
+            font-weight: normal;
+        }
+    }
+
+    #fh5 {
+        display: flex;
+        justify-content: space-around;
+        text-align: left;
+        font-size: 13px;
+        padding-top: 3px;
+        width: 90px;
+        color: rgb(223, 223, 223);
+        height: 20px;
+        font-weight: normal;
+        background-color: rgb(158, 158, 158);
+        border-radius: 20px;
+        /* padding-top: 20px; */
+        /* background-color: blue; */
+    }
+
+    @media screen and (max-width: 600px) {
+        #fh5 {
+            font-size: 10px;
+        }
+    }
+
+</style>
+</head>
+<br>
+<body>
+    <div class="container">
+        <div id="sub-nav">
+        </div>
+        <div class="list-question">
+            <div class="questions">
+                <div class="container"
+                    style="background-color: rgba(183, 187, 201, 0.808); padding: 5px; box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 5px 0px; border-radius: 20px;">
+                    <h3 id="fh3">{{questions.name}}</h3>
+                    <hr>
+                    <h6 id="fh6">{{ questions.description|safe }}</h6>
+                    <hr>
+               
+                    <br>
+                    
+
+                    {% if not questions.answer_set.all %}
+                    <small>No Answers yet... </small>
+                    {% else %}
+                    {% for comment in questions.answer_set.all %}
+                    <h3 style="font-weight: normal; font-size: 15px;">Answer: <br> {{comment.name|safe}}</h3>
+                    {% for i in comment.reply_set.all %}
+                    <div style="margin-left: 3%;">
+                     <small >Reply: <br> {{i.ans}}</small>
+                    </div>
+                    <hr>
+                    {% endfor %}
+
+                    <a href="{% url 'replyto' comment.id %}" style="font-size: x-small; text-decoration: none; float: right;">Reply</a>
+                    <h3 style="font-size: 10px;">Answered by: <i><a href="">{{comment.created_by}}</a> - On:
+                            {{comment.created_at|timesince}}</i></h3>
+
+                        <h6 id="fh6" style="font-size: 10px; font-style: italic; color: rgb(155, 155, 155);"><img class="profile-pic" src="{{enquiry.created_by.image.url}}"> Asked By:
+                            <a href="#">{{enquiry.created_by}}</a>&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; On:
+                            {{enquiry.created_at|timesince}}
+                            
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <button type="submit " style="border:none;background:none; float: left; color: blue; margin-right: 5%;"
+                                    name="Like">
+                                    <i style="font-size: small;"
+                                        class="fa-solid fa-thumbs-up"></i>&nbsp;<small>{{comment.up_vote}}</small>
+                                </button>
+                                
+                                <button type="submit" style="border:none;background:none; float: left; color: blue;"
+                                    name="dislike"><i style="font-size: small;"
+                                        class="fa-solid fa-thumbs-down"></i>&nbsp;<small>{{comment.downvote}}</small></button>
+                                <input type='' value='{{ comment.id }}' name='answer' hidden />
+                                
+                            </form>
+                        </h6>
+                    <hr>
+                  
+                    {% endfor %}
+                    {% endif %}
+                 
+
+
+                    
+                      <div class="w-75 m-5">
+                        <p>Add Comment</p>
+                        <form action="" class="signin-form" method="post" enctype="multipart/form-data">
+                    
+                          {% csrf_token %}
+                          {{ form }}
+                          <br>
+                          <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                          </div>
+                    
+                        </form>
+                      </div>
+
+
+
+
+
+
+                    <a style="text-decoration: none; " class="btn btn-outline-success"
+                        href="{% url 'updatequestion' questions.id %}">&#x270E;</a>
+                    
+                    <a style="text-decoration: none; " class="btn btn-outline-danger"
+                        href="{% url 'delete' questions.id  %}">&#x2716;</a>
+                    <a style="text-decoration: none; " class="btn btn-outline-secondary"
+                        href="{% url 'dashbord' %}">&#x21a9;</a>
+                </div> <br><br>
+                <!-- Answer Section -->
+
+            </div> <br>
+        </div>
+    </div>
+    <br>
+
+    </div>
+
+{% endblock %}
